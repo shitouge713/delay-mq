@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package org.finalcola.delay.mq.common;
+
+option java_package = "org.finalcola.delay.mq.common.proto";
+option java_outer_classname = "DelayMessageProto";
+option java_multiple_files = true;
+
+message MetaData {
+    string msg_id = 1;
+    string msg_key = 2;
+    int64 create_timestamp = 3; // 消息
+    int64 delay_mills = 4; // 延迟时间
+    string topic = 5; // 消息topic
+    string tags = 6; // 可选，rocketMq的tag
+    string partition_key = 7;
+}
+
+message DelayMsg {
+    MetaData meta_data = 1; // 元数据
+    bytes body = 2; // 原始的消息体
+}

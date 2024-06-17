@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package org.finalcola.delay.mq.common;
+
+option java_package = "org.finalcola.delay.mq.common.proto";
+option java_outer_classname = "DelayMessageCommonProto";
+option java_multiple_files = true;
+
+message MsgDataWrapper {
+  string msg_key = 1;
+  uint64 create_time = 2;
+  int64 delay_mills = 3;
+  string topic = 4;
+  string tags = 5;
+  string partition_key = 6;
+  bytes data = 7;
+}

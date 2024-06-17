@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--监测配置文件是否有修改的时间间隔:60秒-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--log日志目录-->
+    <property name="logging.path" value="logs/"/>
+    <contextName>default</contextName>
+
+    <!-- 控制台日志 -->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出（配色）：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%yellow(%d{yyyy-MM-dd HH:mm:ss}) %red([%thread]) %highlight(%-5level) %cyan(%logger{50}:%line) -
+                %magenta(%msg) %n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--根据日志级别分离日志，分别输出到不同的文件-->
+    <!--appender用来格式化日志输出节点，有俩个属性name和class，class用来指定哪种输出策略，常用就是控制台输出策略和文件输出策略。-->
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--按时间保存日志 修改格式可以按小时、按天、月来保存-->
+            <fileNamePattern>${logging.path}/cloud-test-6010.info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--保存时长-->
+            <MaxHistory>90</MaxHistory>
+            <!--文件大小-->
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!--ERROR-->
+    <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n
+            </pattern>
+        </encoder>
+        <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--路径-->
+            <fileNamePattern>${logging.path}/cloud-test-6010.error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <MaxHistory>90</MaxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- root子节点;name:需要打印日志的包;level：设置传递日志级别;additivity：是否向根目录传递，默认值true -->
+    <logger name="org.finalcola" level="INFO" additivity="false">
+        <!-- 将日志记录到fileErrorLog中的文件中 -->
+        <appender-ref ref="fileErrorLog"/>
+        <!-- 将日志打印到控制台 -->
+        <appender-ref ref="consoleLog"/>
+    </logger>
+
+    <root level="WARN">
+        <!-- 打印到控制台 -->
+        <appender-ref ref="consoleLog"/>
+        <appender-ref ref="fileInfoLog"/>
+        <appender-ref ref="fileErrorLog"/>
+    </root>
+</configuration>

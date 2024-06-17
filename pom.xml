@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.finalcola</groupId>
+    <artifactId>delay-mq</artifactId>
+    <version>${projectVersion}</version>
+    <modules>
+        <module>delay-mq-broker</module>
+        <module>delay-mq-common</module>
+        <module>delay-mq-client</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <properties>
+        <projectVersion>1.0</projectVersion>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <protoc.version>3.4.0</protoc.version>
+        <grpc.version>1.35.0</grpc.version>
+        <protobuf-maven-plugin-version>0.6.1</protobuf-maven-plugin-version>
+        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <rocketmq.version>4.9.4</rocketmq.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.finalcola</groupId>
+                <artifactId>delay-mq-broker</artifactId>
+                <version>${projectVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.finalcola</groupId>
+                <artifactId>delay-mq-common</artifactId>
+                <version>${projectVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.finalcola</groupId>
+                <artifactId>delay-mq-client</artifactId>
+                <version>${projectVersion}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
